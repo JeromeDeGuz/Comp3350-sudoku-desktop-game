@@ -200,8 +200,12 @@ As we can see, the figure above shows the Jacoco coverage report for the tests, 
 ### Implement one automated test
 
 #### What you chose to test and why
+I chose to test the names() function, that focuses the accuracy and handling edge cases.
+
+We test on the empty state while technically excluding the '.gitkeep' name within. Since it is not part of the section 4 instructions, to explicitly change code implementation, just so that we could have a completely empty state. Thus, we adjusted our testing to account for that factor. We also tested to make sure that writes are correct and appear in the list as they exactly were. We also tested the size integrity of making sure that the names we added are taken account of.
 
 ##### Whether your test is a unit test or an integration test (and why)
+The test written would be classified as an integration test because of the fact that we are actually using the actual disk or file system that is implemented within what we're testing and we aren't mocking the behaviour like what is done for unit tests. The test was written this way so that we can properly test the behaviour of the system, creating a mock/unit test would essentially defeat the purpose of the test written.
 
 #### If the reactoring was required to enable testability (describe what changed and why).
 
