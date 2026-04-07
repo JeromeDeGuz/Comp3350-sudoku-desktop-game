@@ -231,7 +231,36 @@ Select one of the following:
 
 #### 
 
+**Design Flaw:**
+There is a front-end design flaw with how unlcear the separation between the different 3 x 3 grids are. This causes difficulty with understanding clearly where a box entry belongs to. This causes users to create mistakes with their inputs. Ultimately, the application does not accommodate for the user. This should have been looked over by an UI/UX expert to be able to catch these types of design flaws that cause user issues.
 
+The module that would be affected would be the View module, since this module is the one responsible for producing the front-end interfact that will be displayed to users.
+(provide filename, screenshots, and diagram).
+
+There really isn't any risk to the architecture since this change is mainly to the front-end design. The only issue I could see arising would be if for the gap to exists requires, what essentially would be, a 11 x 11 grid and to treat the extra 2 columns and rows as empty, not displaying them.
+(describe where you would introduce a seam to safely modify the system.)
+
+---
+
+## 6. Overall maintainability assessment
+
+### Report
+In a 1-2 page summary, address **all** of the following:
+- Does the system appear actively maintained?
+- Is the technical debt visible? What evidence suggests that?
+- Are SOLID principles respected or violated? Provide examples.
+- How difficult would it be to extend this system long-term?
+- Would you recommend incremental improvement or a major refactor? Why?
+
+Support your conclusions with specific evidence from the codebase and connections to course concepts.
+
+####
+
+The system clearly appears as though it is not being actively maintained, the strongest piece of evidence to support this claim is the Github repository. In which, the last time there was any commits created created was well over 2 years ago. This can also be derived from the fact taht the applications codebase dependencies have not been updated to properly take account ofthe new dependecy versions. Since, there was also nothing explicitly stated in the README.md that there could be issues when dependency verions change.
+
+The technical debt does not look to be easily visible since there are issues that seem to lay dormant, until something new requires the specific behaviour, that assumption is violated when tested. The best piece of evidence for this is with the name function in the FileSudokuBoardDao.java file. As for, when I created my JUNIT test implementation that focuses on the functions behaviour, there was a hidden technical debt that had revealed itself. For, when I tested if the List\<String\> names was empty it came back false when it should be true. This was because when the names() function traverse through the file names within the directory it does not filter out the file, named, '.gitkeep' which was being processed when it shouldn't be.
+  
+---
 
 # References
 Ashlesh, P., Deepak, K. K., & Preet, K. K. (2020). Role of prefrontal cortex during Sudoku task: fNIRS study. Translational neuroscience, 11(1), 419–427. https://doi.org/10.1515/tnsci-2020-0147
