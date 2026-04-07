@@ -202,21 +202,36 @@ As we can see, the figure above shows the Jacoco coverage report for the tests, 
 #### What you chose to test and why
 I chose to test the names() function, that focuses the accuracy and handling edge cases.
 
-We test on the empty state while technically excluding the '.gitkeep' name within. Since it is not part of the section 4 instructions, to explicitly change code implementation, just so that we could have a completely empty state. Thus, we adjusted our testing to account for that factor. We also tested to make sure that writes are correct and appear in the list as they exactly were. We also tested the size integrity of making sure that the names we added are taken account of.
+We test the empty state, we also tested to make sure that writes are correct and appear in the list as they exactly were. We also tested the size integrity of making sure that the names we added are taken account of.
 
 ##### Whether your test is a unit test or an integration test (and why)
 The test written would be classified as an integration test because of the fact that we are actually using the actual disk or file system that is implemented within what we're testing and we aren't mocking the behaviour like what is done for unit tests. The test was written this way so that we can properly test the behaviour of the system, creating a mock/unit test would essentially defeat the purpose of the test written.
 
-#### If the reactoring was required to enable testability (describe what changed and why).
+#### If the refactoring was required to enable testability (describe what changed and why).
+Yes there was refactoring that was required to enable testability because once the test was written and ran, there immediately was an issue that arose. That is, when getting all the file names, the function also included the file name '.gitkeep' which is not an inherent behaviour that we would want within our project or function. Thus, we had to refactor that function to filter out file names that specifically contain '.gitkeep' so that we are not adding that to our names.
 
 #### Where the test file lives in the project structure (e.g., src/test/java/...)
-
-
-
-
-
+The test file lives in the same file as the FileSudokuBoardDaoTest.java. Since, that test file handles all the testing for the specific file name it relates to. The only thing we did was added a new test function that contains our test written. So the path of the test file is Dao/src/test/java/sudoku/dao/FileSudokuBoardDaoTest.java which is the relative path.
 
 ---
+
+## 5. Identifying a maintenance opportunity (No implementation required)
+
+### Report
+Select one of the following:
+- Potential new feature
+- Bug
+- Design flaw
+
+**No code is required for this activity. In your report:**
+- Describe the problem/change clearly.
+- Identify which classes/modules would be affected (include file names, screenshots, or diagrams as needed).
+- Explain architectural risk (what could break, what is hard to change, what needs protection via tests).
+- Describe where you would introduce a seam to safely modify the system (if appropriate).
+
+#### 
+
+
 
 # References
 Ashlesh, P., Deepak, K. K., & Preet, K. K. (2020). Role of prefrontal cortex during Sudoku task: fNIRS study. Translational neuroscience, 11(1), 419–427. https://doi.org/10.1515/tnsci-2020-0147
