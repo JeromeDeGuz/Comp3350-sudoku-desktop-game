@@ -57,7 +57,9 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             File[] files = directory.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    fileNames.add(file.getName());
+                    if(!file.getName().contains(".gitkeep")){
+                        fileNames.add(file.getName());
+                    }
                 }
             }
         }
