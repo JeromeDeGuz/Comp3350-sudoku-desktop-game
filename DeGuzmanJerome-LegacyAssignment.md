@@ -1,5 +1,5 @@
 ---
-title: "Comp 3350 Maintaining a Legacy System (W26)
+title: "Comp 3350 Maintaining a Legacy System (W26)"
 author: "Jerome De Guzman"
 ---
 
