@@ -3,6 +3,47 @@ title: "Comp 3350 Maintaining a Legacy System (W26)
 author: "Jerome De Guzman"
 ---
 
+# Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Maintaining a Legacy System](#maintaining-a-legacy-system)
+  - [1. Getting the System Running (Field Notes + Reflections)](#1-getting-the-system-running-field-notes--reflections)
+    - [Report](#report)
+      - [Environment used: (Java version, IDE, OS)](#environment-used-java-version-ide-os)
+      - [Steps to get the system running:](#steps-to-get-the-system-running)
+  - [2. Understanding the System (In Your Own Words)](#2-understanding-the-system-in-your-own-words)
+    - [Report:](#report-1)
+      - [What problem does it solve?](#what-problem-does-it-solve)
+      - [What are its major features?](#what-are-its-major-features)
+      - [How does a user interact with it?](#how-does-a-user-interact-with-it)
+    - [Name-in-UI requirement:](#name-in-ui-requirement)
+  - [3. Architecture Exploration and Reflection](#3-architecture-exploration-and-reflection)
+    - [Report](#report-2)
+      - [Describe the architectural style (if any) that appears to be present (e.g., layered, MVC).](#describe-the-architectural-style-if-any-that-appears-to-be-present-eg-layered-mvc)
+      - [How are responsiblilities divide across packages/classes](#how-are-responsiblilities-divide-across-packagesclasses)
+      - [Is there separation between UI and logic? Provide examples.](#is-there-separation-between-ui-and-logic-provide-examples)
+      - [Where is coupling high? Provide at least one specific example (class names + what depends on what).](#where-is-coupling-high-provide-at-least-one-specific-example-class-names--what-depends-on-what)
+      - [Where is cohesion strong or weak? Provide at least one specific example.](#where-is-cohesion-strong-or-weak-provide-at-least-one-specific-example)
+  - [4. Testing and Build State (Automated Test Required)](#4-testing-and-build-state-automated-test-required)
+    - [Report](#report-3)
+      - [Are tests present in the repository?](#are-tests-present-in-the-repository)
+      - [If yes, were they runnnable? Where do they live and what do they test?](#if-yes-were-they-runnnable-where-do-they-live-and-what-do-they-test)
+      - [If not, what does that suggest about maintainability and risk?](#if-not-what-does-that-suggest-about-maintainability-and-risk)
+      - [Running tests](#running-tests)
+    - [Implement one automated test](#implement-one-automated-test)
+      - [What you chose to test and why](#what-you-chose-to-test-and-why)
+        - [Whether your test is a unit test or an integration test (and why)](#whether-your-test-is-a-unit-test-or-an-integration-test-and-why)
+      - [If the refactoring was required to enable testability (describe what changed and why).](#if-the-refactoring-was-required-to-enable-testability-describe-what-changed-and-why)
+      - [Where the test file lives in the project structure (e.g., src/test/java/...)](#where-the-test-file-lives-in-the-project-structure-eg-srctestjava)
+  - [5. Identifying a maintenance opportunity (No implementation required)](#5-identifying-a-maintenance-opportunity-no-implementation-required)
+    - [Report](#report-4)
+      - [Design Flaw](#design-flaw)
+  - [6. Overall maintainability assessment](#6-overall-maintainability-assessment)
+    - [Report](#report-5)
+      - [Summary](#summary)
+- [References](#references)
+
+
 # Maintaining a Legacy System
 
 We have been instructed to maintain a legacy system that we are not familiar with, we must get a clear understanding of the legacy system as a whole to be able to work and add implementation to the system effectively.
@@ -229,16 +270,20 @@ Select one of the following:
 - Explain architectural risk (what could break, what is hard to change, what needs protection via tests).
 - Describe where you would introduce a seam to safely modify the system (if appropriate).
 
-#### 
+#### Design Flaw
 
-**Design Flaw:**
-There is a front-end design flaw with how unlcear the separation between the different 3 x 3 grids are. This causes difficulty with understanding clearly where a box entry belongs to. This causes users to create mistakes with their inputs. Ultimately, the application does not accommodate for the user. This should have been looked over by an UI/UX expert to be able to catch these types of design flaws that cause user issues.
+![front-end-grid](image-5.png)
+**Figure 5: Design Flaw**
 
-The module that would be affected would be the View module, since this module is the one responsible for producing the front-end interfact that will be displayed to users.
-(provide filename, screenshots, and diagram).
+There is a front-end design flaw with how unclear the separation between the different 3x3 grids are displayed. This causes difficulty with understanding where a grid box entry belongs to, with myself accidentally entering numbers for a grid box thinking it belongs at the top right 3x3 grid, but actually its for the middle right 3x3 grid. This causes users to have mistakes with their inputs. Ultimately, the application does not accomodate for the user and I feel like this could have been prevented if it was reviewed by a UI/UX expert to be able to catch these types of design flaws that cause user issues.
 
-There really isn't any risk to the architecture since this change is mainly to the front-end design. The only issue I could see arising would be if for the gap to exists requires, what essentially would be, a 11 x 11 grid and to treat the extra 2 columns and rows as empty, not displaying them.
-(describe where you would introduce a seam to safely modify the system.)
+As I was understanding the design flaw and which classes/modules it would affect, I noticed that there was a JavaFX design file, named primary.fxml which does contain a proper front-end design that implements that clear separation and also an exit button. That exit button, is what I could only assume, being a button that could bring the users back to the main menu.
+
+As for the classes/modules that would be affected, it would be the View module which the specific file GameController.java. Since, from my understanding the GameController.java doesn't actually properly implement the usage of the primary.fxml file for the grids. Please look at figure 5 which shows the primary.fxml design for the game vs the actual game design, we can see that the primary.fxml should be the one used, but the GameController.java dynamically creates its own 9x9 grid for the Sudoku game, instead of using the fxml.
+
+There really isn't any risk to the architecture since this change is mainly to the front-end design. The only issue I could see arising would be if for the gap to exists requires, what essentially would be, a 11 x 11 grid and to treat the extra 2 columns and rows as empty, not displaying them. Obviously, that isn't the best idea and would mess up with the assumption that the grids should be a 1-to-1 relationship paring and would create a lot of overhead for the core back-end logic. Thus, I feel like if the proper fxml was used, there wouldn't really be any architectural risk on what would break, or hard to change.
+
+The seam I would introduce to safely modify the system is to create a sprouting seam which would be to create a new method within GameController.java that would bind/map to the .fxml file. So that, instead of the GameController.java being responsible for actually creating the UI elements by doing a loop, it would just build the logic to the pre-existing items defined in the .fxml. Then, from there just match the sudokuBoardGridPane with the propery row and column entry to the SudokuBoard array. The best example that I could see that already does this type of behaviour is the App.java file within the View module. This would allow the primary.fxml to serve as the definitive source for the front-end design and allow the GameController.java to focuse on the functional interaction rather than creating the front-end items. Separating this out minimizes the risk of breaking core logic when adjusting the interface layout.
 
 ---
 
@@ -254,12 +299,20 @@ In a 1-2 page summary, address **all** of the following:
 
 Support your conclusions with specific evidence from the codebase and connections to course concepts.
 
-####
+#### Summary
 
-The system clearly appears as though it is not being actively maintained, the strongest piece of evidence to support this claim is the Github repository. In which, the last time there was any commits created created was well over 2 years ago. This can also be derived from the fact taht the applications codebase dependencies have not been updated to properly take account ofthe new dependecy versions. Since, there was also nothing explicitly stated in the README.md that there could be issues when dependency verions change.
+The system clearly appears as though it is not being actively maintained, the strongest piece of evidence to support this claim is the Github repository. In which, the last time there was any commits created was well over 2 years ago. This can also be derived from the fact taht the applications codebase dependencies have not been updated to properly take account ofthe new dependency versions. Since, there was also nothing explicitly stated in the README.md that there could be issues when dependency versions change.
 
-The technical debt does not look to be easily visible since there are issues that seem to lay dormant, until something new requires the specific behaviour, that assumption is violated when tested. The best piece of evidence for this is with the name function in the FileSudokuBoardDao.java file. As for, when I created my JUNIT test implementation that focuses on the functions behaviour, there was a hidden technical debt that had revealed itself. For, when I tested if the List\<String\> names was empty it came back false when it should be true. This was because when the names() function traverse through the file names within the directory it does not filter out the file, named, '.gitkeep' which was being processed when it shouldn't be.
-  
+The technical debt does not look to be easily visible since there are issues that seem to lay dormant, until something new requires the specific behaviour, that assumption is violated when tested. The best piece of evidence for this is with the name function in the FileSudokuBoardDao.java file. As for, when I created my JUNIT test implementation that focuses on the functions behaviour, there was a hidden technical debt that had revealed itself. For, when I tested if the List\<String\> names were empty it came back false when it should be true. This was because when the names() function traverses through the file names within the directory it does not filter out the file, named, '.gitkeep' which was being processed when it shouldn't be.
+
+Another technical debt that could also be mentioned is the primary.fxml and the mismatched front-end implementation of the core Sudoku grid, since looking at the .fxml anyone could assume that it is responsible for actually displaying the grids. However, from a more indepth analysis of the View module, you can see that the GameController.java actually dynamicallys creates those grids rather than using the provided primary.fxml and changing the attributes of that file.
+
+Overview of the system seems to show a mixed compliance to SOLID principles, in the Model module there seems to be compliance with the Single Responsibility Principle (SRP), but then there is a Open/Closed Principle (OCP) violation in the SudokuBoardDaoFactory. In which adding a new persistence type, like cloud storage, would require modifying the existing factory code rather than extending it. Then there's also compliance of the Dependency Inversion Principle (DIP) with the Dao\<T\> interface, which allows the application to switch between SQLite and File storage without changing the GameController logic for saving.
+
+The difficulty to extend this system to long-term wouldn't be too difficult. Since, the architecture style having the Model View Controller allows for modularity with different implementations when done correctly. However, from what I can tell from my own understanding of this system, it seems as though changing the persistence implementation wouldn't be too much of an issue, but changes with the UI would be where some issues could arise. I say this because of the technical debt I discovered earlier with hard coded java code that iterates through nested loops to generate the front-end grid rather than having a proper .fxml that could handle that. This hardcoded approach makes doing any changes harder, as it could risk altering the 1-to-1 mapping between the grid elements and the SudokuBoard array, causing issues with UI logic.
+
+I would recommend incremental improvement rather than a major refactor because the core business logic has strong cohesiveness, and stable with units test that ensure proper behaviour. The important part that allows me to recommend incremental improvement is the fact that there are these automated junit tests that give security that any future implementations does not break current behaviour and reduces the chance of missing any hidden technical debt that could arise. This incremental improvement approach allows for minimal disruption, allowing us to target the more important technical debt first. 
+ 
 ---
 
 # References
